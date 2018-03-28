@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +44,32 @@ public class MainActivity extends AppCompatActivity{
 
         //RecyclerView adapater
 //        ProductFilterRecyclerViewAdapter recyclerViewAdapter = new ProductFilterRecyclerViewAdapter(getBrands(),this);
-        ProductFilterRecyclerViewAdapter2 recyclerViewAdapter = new ProductFilterRecyclerViewAdapter2(getBrands(),this);
-        brandRecyclerView.setAdapter(recyclerViewAdapter);
+//        ProductFilterRecyclerViewAdapter2 recyclerViewAdapter = new ProductFilterRecyclerViewAdapter2(getBrands(),this);
+//        brandRecyclerView.setAdapter(recyclerViewAdapter);
+
+
+
+
+
+
+
+        ProductFilterRecyclerViewAdapter2 mAdapter = new ProductFilterRecyclerViewAdapter2(getBrands(),this, new MyAdapterListener() {
+            @Override
+            public void iconTextViewOnClick(View v, int position) {
+
+                Toast.makeText(MainActivity.this, "productCount :: "+position, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void iconImageViewOnClick(View v, int position) {
+                Toast.makeText(MainActivity.this, "brandName :: "+position, Toast.LENGTH_SHORT).show();
+            }
+        });
+        brandRecyclerView.setAdapter(mAdapter);
+
+
+
     }
 
     private List<FilterModel> getBrands(){

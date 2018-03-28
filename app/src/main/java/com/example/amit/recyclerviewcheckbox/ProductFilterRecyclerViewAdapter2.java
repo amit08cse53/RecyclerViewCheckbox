@@ -18,11 +18,20 @@ public class ProductFilterRecyclerViewAdapter2 extends RecyclerView.Adapter<Prod
     private List<FilterModel> filterList;
     private Context context;
 
+
+    public MyAdapterListener onClickListener;
+
+
+
+
+
+
     private SparseBooleanArray itemStateArray= new SparseBooleanArray();
 
-    public ProductFilterRecyclerViewAdapter2(List<FilterModel> filterModelList, Context ctx) {
+    public ProductFilterRecyclerViewAdapter2(List<FilterModel> filterModelList, Context ctx,MyAdapterListener listener) {
         filterList = filterModelList;
         context = ctx;
+        onClickListener = listener;
     }
 
     @Override
@@ -78,11 +87,13 @@ public class ProductFilterRecyclerViewAdapter2 extends RecyclerView.Adapter<Prod
         return filterList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView brandName;
         public TextView productCount;
         public CheckBox selectionState;
+
+
 
         public ViewHolder(View view) {
             super(view);
@@ -90,27 +101,40 @@ public class ProductFilterRecyclerViewAdapter2 extends RecyclerView.Adapter<Prod
             productCount = (TextView) view.findViewById(R.id.product_count);
             selectionState = (CheckBox) view.findViewById(R.id.brand_select);
 
-            //item click event listener
-            view.setOnClickListener(this);
 
-            //checkbox click event handling
-            selectionState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            productCount.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView,
-                                             boolean isChecked) {
-                    if (isChecked) {
-                        Toast.makeText(ProductFilterRecyclerViewAdapter2.this.context,"selected brand is " + brandName.getText(), Toast.LENGTH_LONG).show();
-                    } else {
-
-                    }
+                public void onClick(View v) {
+                    onClickListener.iconTextViewOnClick(v, getAdapterPosition());
                 }
             });
-        }
+            brandName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickListener.iconImageViewOnClick(v, getAdapterPosition());
+                }
+            });
 
-        @Override
-        public void onClick(View v) {
-            TextView brndName = (TextView) v.findViewById(R.id.brand_name);
-            //show more information about brand
+
+
+
+
+
+            //item click event listener
+//            view.setOnClickListener(this);
+
+            //checkbox click event handling
+//            selectionState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView,
+//                                             boolean isChecked) {
+//                    if (isChecked) {
+//                        Toast.makeText(ProductFilterRecyclerViewAdapter2.this.context,"selected brand is " + brandName.getText(), Toast.LENGTH_LONG).show();
+//                    } else {
+//
+//                    }
+//                }
+//            });
         }
     }
 }
