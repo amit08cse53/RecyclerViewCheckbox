@@ -24,6 +24,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity{
     private RecyclerView brandRecyclerView;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
