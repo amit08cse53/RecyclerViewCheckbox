@@ -2,6 +2,7 @@ package com.example.amit.recyclerviewcheckbox;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ public class ProductFilterRecyclerViewAdapter2 extends RecyclerView.Adapter<Prod
 
     private List<FilterModel> filterList;
     private Context context;
+
+    private SparseBooleanArray itemStateArray= new SparseBooleanArray();
 
     public ProductFilterRecyclerViewAdapter2(List<FilterModel> filterModelList, Context ctx) {
         filterList = filterModelList;
@@ -40,46 +43,33 @@ public class ProductFilterRecyclerViewAdapter2 extends RecyclerView.Adapter<Prod
         holder.productCount.setText("" + filterM.getAnInt());
 
 
-        if (filterM.isaBoolean()) {
-            holder.selectionState.setChecked(true);
-        } else {
+        if (!itemStateArray.get(position, false)) {
             holder.selectionState.setChecked(false);
         }
+        else  {
+            holder.selectionState.setChecked(true);
+
+        }
+
+
 
         holder.selectionState.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (filterM.isaBoolean()) {
-                    holder.selectionState.setChecked(false);
-                    filterM.setaBoolean(false);
-                    notifyItemChanged(position);
-                } else {
+                if (!itemStateArray.get(position, false)) {
                     holder.selectionState.setChecked(true);
-                    filterM.setaBoolean(true);
-                    notifyItemChanged(position);
+                    itemStateArray.put(position, true);
                 }
-            }
-        });
-
-
-
-        // toggle the checked view based on the checked field in the model
-        /*holder.selectionState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-
-                if (filterM.isaBoolean()) {
+                else  {
                     holder.selectionState.setChecked(false);
-                    filterM.setaBoolean(false);
-                } else {
-                    holder.selectionState.setChecked(true);
-                    filterM.setaBoolean(true);
+                    itemStateArray.put(position, false);
+
                 }
+
 
 
             }
-        });*/
+        });
 
     }
 
